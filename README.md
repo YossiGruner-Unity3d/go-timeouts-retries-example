@@ -16,6 +16,14 @@ This code example showcases the integration of the `retry-go` library to impleme
 
 - [View Code Example](./go_retry/main.go)
 
+
+### Using Circuit Breaker with Retry
+
+
+This code example illustrates the combination of circuit breaker, retry, and timeout patterns. It demonstrates how to protect your application from repeated failures and how to handle retries within a circuit breaker context.
+
+- [View Code Example](./circuitbreaker/main.go)
+
 ## Industry Best Practices for Timeouts and Retries
 
 ### Timeouts:
@@ -38,6 +46,14 @@ This code example showcases the integration of the `retry-go` library to impleme
 
 4. **Circuit Breaker**: Implement a circuit breaker pattern to temporarily halt retries when repeated failures occur, allowing systems to recover and preventing continuous retries during degraded states.
 
+### Circuit Breakers:
+
+1. **Protection from Repeated Failures**: Use a circuit breaker to prevent repeated calls to a failing service or component, reducing load and allowing systems to recover.
+
+2. **Graceful Handling of Failures**: Circuit breakers allow you to gracefully degrade functionality during system outages, offering fallback options to maintain a smoother user experience.
+
+3. **Monitoring and Metrics**: Implement circuit breakers with monitoring and metrics to track the health of services, enabling informed decisions about retry attempts.
+
 ## Libraries for Timeouts and Retries
 
 **Timeout Libraries:**
@@ -56,5 +72,9 @@ This code example showcases the integration of the `retry-go` library to impleme
 - github.com/sethvargo/go-retry
 - github.com/jpillora/backoff
 
+**Circuit Breaker Libraries:**
+
+- github.com/rubyist/circuitbreaker
+- github.com/sony/gobreaker
 
 Remember that timeouts and retries should be applied thoughtfully based on the specific needs of your application and the services it interacts with. A well-designed timeout and retry strategy can help improve system resilience and provide a smoother user experience.

@@ -17,18 +17,23 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
+	// Define retry options with jitter
+	retryOptions := []retry.Option{
+		retry.Attempts(3),
+		retry.Delay(2 * time.Second),
+		retry.LastErrorOnly(true),
+		retry.MaxJitter(500 * time.Millisecond), // Maximum jitter duration
+		retry.OnRetry(func(n uint, err error) {
+			fmt.Printf("Retry %d: %s\n", n, err)
+		}),
+	}
+
 	// Call the function with timeout and retries using retry-go
 	err := retry.Do(
 		func() error {
 			return callWithRetry(ctx, performTask)
 		},
-		retry.Attempts(3),
-		retry.Delay(2*time.Second),
-		retry.LastErrorOnly(true),
-		retry.OnRetry(func(n uint, err error) {
-			fmt.Printf("Retry %d: %s\n", n, err)
-		}),
-	)
+		retryOptions...)
 
 	if err != nil {
 		fmt.Println("Error:", err)
