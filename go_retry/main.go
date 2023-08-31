@@ -19,8 +19,10 @@ func main() {
 
 	// Define retry options with jitter
 	retryOptions := []retry.Option{
+		retry.Context(ctx),
 		retry.Attempts(3),
 		retry.Delay(2 * time.Second),
+		retry.DelayType(retry.BackOffDelay),
 		retry.LastErrorOnly(true),
 		retry.MaxJitter(500 * time.Millisecond), // Maximum jitter duration
 		retry.OnRetry(func(n uint, err error) {
@@ -31,7 +33,7 @@ func main() {
 	// Call the function with timeout and retries using retry-go
 	err := retry.Do(
 		func() error {
-			return callWithRetry(ctx, performTask)
+			return performTask()
 		},
 		retryOptions...)
 
